@@ -5,6 +5,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Home from './Home';
 import { auth } from './firebase';
+import { CssBaseline, GlobalStyles } from '@mui/material';
 
 const PrivateRoute = ({ children }) => {
   return auth.currentUser ? children : <Navigate to="/" />;
@@ -13,6 +14,18 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <Router>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          body: {
+            backgroundColor: '#E3F2FD', // Light blue background
+            margin: 0,
+            padding: 0,
+            boxSizing: 'border-box',
+            fontFamily: 'Roboto, sans-serif',
+          },
+        }}
+      />
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
