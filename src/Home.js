@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deepPurple } from '@mui/material/colors';
 import Lottie from 'react-lottie';
 import animationData from './bluebird.json';
+import jsPDF from 'jspdf';
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
@@ -108,6 +109,16 @@ const Home = () => {
     setSelectedNotes([]);
   };
 
+  const handleExportPDF = () => {
+    const doc = new jsPDF();
+    let yPosition = 10;
+    notes.forEach(note => {
+      doc.text(note.text, 10, yPosition);
+      yPosition += 10;
+    });
+    doc.save('notes.pdf');
+  };
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -121,7 +132,7 @@ const Home = () => {
     <Container maxWidth="sm" sx={{ mt: 5 }}>
       <Lottie options={defaultOptions} height={200} width={200} />
       <Paper elevation={3} sx={{ p: 3, textAlign: 'center' }}>
-        <Typography variant="h4" gutterBottom>Leave a Tweet!</Typography>
+        <Typography variant="h4" gutterBottom>Notes</Typography>
         {user && (
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
             <label htmlFor="profile-pic-upload">
@@ -217,6 +228,16 @@ const Home = () => {
             disabled={selectedNotes.length === 0}
           >
             Delete All
+          </Button>
+        </Box>
+        <Box sx={{ mt: 3 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleExportPDF}
+            sx={{ borderRadius: '25px' }}
+          >
+            Export All as PDF
           </Button>
         </Box>
       </Paper>
